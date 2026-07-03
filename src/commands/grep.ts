@@ -22,13 +22,12 @@ export async function runGrep(args: string[]): Promise<void> {
   const m = selection.match(/^(.+?):(\d+):/);
   if (!m) return;
 
-  const [, path, lineNum] = m;
-  const [cmd, ...editorArgs] = config.editor.split(" ").filter(Boolean);
-  const isVsCode = cmd?.includes("code");
+  const path = m[1] ?? "";
+  const lineNum = m[2] ?? "";
+  const [cmd = "", ...editorArgs] = config.editor.split(" ").filter(Boolean);
+  if (!cmd) throw new Error("No editor configured. Set $EDITOR or $VISUAL.");
 
-  const editorPath = isVsCode ? [`${path}:${lineNum}`] : [path, `+${lineNum}`];
-
-  const proc = Bun.spawnSync([cmd, ...editorArgs, ...editorPath], {
+  const proc = Bun.spawnSync([cmd, ...editorArgs, path, `+${lineNum}`], {
     stdio: ["inherit", "inherit", "inherit"],
   });
   if (!proc.success) process.exit(proc.exitCode);

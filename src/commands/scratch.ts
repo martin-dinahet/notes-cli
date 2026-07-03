@@ -1,5 +1,4 @@
-import { openInEditor } from "../lib/editor.ts";
-import { ensureDir, scratchpadPath } from "../lib/helpers.ts";
+import { ensureDir, openInEditor, scratchpadPath } from "../lib/helpers.ts";
 import { loadConfig } from "../lib/notes/load-config.ts";
 
 export async function runScratch(): Promise<void> {

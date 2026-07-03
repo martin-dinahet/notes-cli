@@ -5,6 +5,7 @@ import { runDaily } from "./commands/daily.ts";
 import { runFind } from "./commands/find.ts";
 import { runGrep } from "./commands/grep.ts";
 import { runScratch } from "./commands/scratch.ts";
+import { runTodo } from "./commands/todo.ts";
 
 const HELP = `notes - plain-text note taking in your terminal
 
@@ -14,6 +15,7 @@ Usage:
   notes scratch          Open the scratchpad
   notes find [query]     Fuzzy-find notes by title (uses fzf)
   notes grep [pattern]   Search note content with ripgrep + fzf
+  notes todo             Interactive todo list from all notes
 
 Config:
   NOTES_DIR   Where notes are stored (default: ~/.notes)
@@ -38,6 +40,9 @@ async function main(): Promise<void> {
       break;
     case "grep":
       await runGrep(args);
+      break;
+    case "todo":
+      await runTodo();
       break;
     case "help":
     case "--help":

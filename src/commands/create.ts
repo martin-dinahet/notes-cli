@@ -1,4 +1,4 @@
-import { openInEditor } from "../lib/editor.ts";
+import { openInEditor } from "../lib/helpers.ts";
 import { createNote } from "../lib/notes/create-note.ts";
 import { loadConfig } from "../lib/notes/load-config.ts";
 

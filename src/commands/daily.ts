@@ -1,6 +1,5 @@
 import { join } from "node:path";
-import { openInEditor } from "../lib/editor.ts";
-import { dailyNotePath, ensureDir } from "../lib/helpers.ts";
+import { dailyNotePath, ensureDir, openInEditor } from "../lib/helpers.ts";
 import { loadConfig } from "../lib/notes/load-config.ts";
 
 export async function runDaily(): Promise<void> {

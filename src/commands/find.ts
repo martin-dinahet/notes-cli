@@ -26,7 +26,8 @@ export async function runFind(args: string[]): Promise<void> {
   if (!selection) return;
 
   const path = selection.includes("\t") ? selection.split("\t").slice(1).join("\t") : selection;
-  const [cmd, ...editorArgs] = config.editor.split(" ").filter(Boolean);
+  const [cmd = "", ...editorArgs] = config.editor.split(" ").filter(Boolean);
+  if (!cmd) throw new Error("No editor configured. Set $EDITOR or $VISUAL.");
   const proc = Bun.spawnSync([cmd, ...editorArgs, path], {
     stdio: ["inherit", "inherit", "inherit"],
   });

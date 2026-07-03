@@ -13,9 +13,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.2",
+    "@types/blessed": "^0.1.27",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81"
   }
 }
