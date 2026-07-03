@@ -1,6 +1,6 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
-import type { Config } from "../../types.ts";
+import type { Config } from "./types.ts";
 
 export function loadConfig(): Config {
   const notesDir = process.env.NOTES_DIR ?? join(homedir(), ".notes");

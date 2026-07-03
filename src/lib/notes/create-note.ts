@@ -1,5 +1,5 @@
-import type { Config, CreateNoteResult } from "../../types";
 import { ensureNotesDir, notePath } from "../helpers";
+import type { Config, CreateNoteResult } from "./types";
 
 export async function createNote(title: string, config: Config): Promise<CreateNoteResult> {
   if (!title.trim()) throw new Error("Note title cannot be empty.");

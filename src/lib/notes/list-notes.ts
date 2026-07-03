@@ -1,8 +1,8 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
-import type { Config, Note } from "../../types";
 import { NOTE_EXTENSION } from "../constants";
 import { ensureNotesDir, filenameToTitle } from "../helpers";
+import type { Config, Note } from "./types";
 
 export async function listNotes(config: Config): Promise<Note[]> {
   await ensureNotesDir(config);

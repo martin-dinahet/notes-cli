@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
-import type { Config } from "../types.ts";
 import { NOTE_EXTENSION } from "./constants";
+import type { Config } from "./notes/types.ts";
 
 export function titleToFilename(title: string): string {
   return `${title.trim().replace(/[/\\]/g, "-")}${NOTE_EXTENSION}`;
