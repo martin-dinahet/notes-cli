@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --compile --outfile notes",
+    "build": "bun build src/index.ts --compile --external blessed --outfile notes",
     "lint": "biome lint",
     "format": "biome format --write",
     "check": "biome check --write"
