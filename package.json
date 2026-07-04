@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --compile --external blessed --outfile notes",
+    "build": "bun build src/index.ts --compile --outfile notes",
     "lint": "biome lint",
     "format": "biome format --write",
     "check": "biome check --write"
@@ -13,13 +13,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.2",
-    "@types/blessed": "^0.1.27",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "blessed": "^0.1.81"
   }
 }
