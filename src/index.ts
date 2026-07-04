@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 
+import { runBrowse } from "./commands/browse.ts";
 import { runCreate } from "./commands/create.ts";
 import { runDaily } from "./commands/daily.ts";
 import { runFind } from "./commands/find.ts";
@@ -15,6 +16,7 @@ Usage:
   notes scratch          Open the scratchpad
   notes find [query]     Fuzzy-find notes by title (uses fzf)
   notes grep [pattern]   Search note content with ripgrep + fzf
+  notes browse           Open yazi file browser in the notes directory
   notes todo             Interactive todo list from all notes
 
 Config:
@@ -40,6 +42,9 @@ async function main(): Promise<void> {
       break;
     case "grep":
       await runGrep(args);
+      break;
+    case "browse":
+      await runBrowse();
       break;
     case "todo":
       await runTodo();
