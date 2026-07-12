@@ -50,7 +50,7 @@ export function openInEditor(filePath: string, editor: string, lineNum?: string)
 }
 
 export function openWithGlow(path: string): void {
-  const proc = Bun.spawnSync(["glow", path], {
+  const proc = Bun.spawnSync(["glow", "--tui", path], {
     stdio: ["inherit", "inherit", "inherit"],
   });
   if (!proc.success) {
