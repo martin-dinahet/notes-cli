@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { dailyNotePath, ensureDir, openInEditor } from "../lib/helpers.ts";
+import { dailyNotePath, ensureDir, openExistingNote, openInEditor } from "../lib/helpers.ts";
 import { loadConfig } from "../lib/notes/load-config.ts";
 import { createMarkdownNote, updateMarkdownNoteMetadata } from "../lib/notes/metadata.ts";
 
@@ -24,6 +24,10 @@ export async function runDaily(): Promise<void> {
   }
 
   await updateMarkdownNoteMetadata(path, title);
-  openInEditor(path, config.editor);
+  if (exists) {
+    openExistingNote(path, config);
+  } else {
+    openInEditor(path, config.editor);
+  }
   await updateMarkdownNoteMetadata(path, title);
 }

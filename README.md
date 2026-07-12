@@ -51,6 +51,10 @@ bun run build
 |---|---|---|
 | `NOTES_DIR` | `~/.notes` | Where notes are stored |
 | `EDITOR` / `VISUAL` | `vi` | Editor to open notes with |
+| `NOTES_VIEWER` | `editor` | Set to `glow` to view existing notes with [glow](https://github.com/charmbracelet/glow) |
+
+When `NOTES_VIEWER=glow`, commands that open existing notes render them with `glow`
+instead of opening your editor. `notes browse` opens the notes directory in `glow`.
 
 ## Dev
 

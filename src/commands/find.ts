@@ -1,29 +1,25 @@
 import { basename } from "node:path";
-import { NOTE_EXTENSION } from "../lib/constants.ts";
-import { filenameToTitle, scratchpadPath } from "../lib/helpers.ts";
+import { filenameToTitle, openExistingNote, scratchpadPath } from "../lib/helpers.ts";
+import { listNotes } from "../lib/notes/list-notes.ts";
 import { loadConfig } from "../lib/notes/load-config.ts";
 import { updateMarkdownNoteMetadata } from "../lib/notes/metadata.ts";
 
 export async function runFind(args: string[]): Promise<void> {
   const config = loadConfig();
   const query = args.join(" ").trim();
-
-  const find = Bun.spawn(["find", config.notesDir, "-name", `*${NOTE_EXTENSION}`, "-type", "f"], {
-    stdout: "pipe",
-  });
-  const awk = Bun.spawn(
-    ["awk", `{ t=$0; sub(/.*\\//,"",t); sub(/\\${NOTE_EXTENSION}$/,"",t); print t "\t" $0 }`],
-    { stdin: find.stdout, stdout: "pipe" },
-  );
+  const notes = await listNotes(config);
+  const input = notes.map((note) => `${note.title}\t${note.path}`).join("\n");
 
   const fzfArgs = ["--reverse", "--with-nth=1", "--delimiter=\t"];
   if (query) fzfArgs.push("--query", query);
 
   const fzf = Bun.spawn(["fzf", ...fzfArgs], {
-    stdin: awk.stdout,
+    stdin: "pipe",
     stdout: "pipe",
     stderr: "inherit",
   });
+  fzf.stdin.write(input);
+  fzf.stdin.end();
 
   const output = await new Response(fzf.stdout).text();
   const selection = output.trim();
@@ -34,11 +30,6 @@ export async function runFind(args: string[]): Promise<void> {
   const isScratchpad = path === scratchpadPath(config);
   if (!isScratchpad) await updateMarkdownNoteMetadata(path, title);
 
-  const [cmd = "", ...editorArgs] = config.editor.split(" ").filter(Boolean);
-  if (!cmd) throw new Error("No editor configured. Set $EDITOR or $VISUAL.");
-  const proc = Bun.spawnSync([cmd, ...editorArgs, path], {
-    stdio: ["inherit", "inherit", "inherit"],
-  });
-  if (!proc.success) process.exit(proc.exitCode);
+  openExistingNote(path, config);
   if (!isScratchpad) await updateMarkdownNoteMetadata(path, title);
 }

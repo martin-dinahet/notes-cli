@@ -20,8 +20,9 @@ Usage:
   notes todo             Interactive todo list from markdown task lists
 
 Config:
-  NOTES_DIR   Where notes are stored (default: ~/.notes)
-  EDITOR      Editor to open notes with (default: vi)
+  NOTES_DIR     Where notes are stored (default: ~/.notes)
+  EDITOR        Editor to open notes with (default: vi)
+  NOTES_VIEWER  Use "glow" to view existing notes with glow
 `;
 
 async function main(): Promise<void> {

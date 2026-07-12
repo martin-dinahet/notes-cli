@@ -35,13 +35,34 @@ export async function ensureDir(path: string): Promise<void> {
   await mkdir(path, { recursive: true });
 }
 
-export function openInEditor(filePath: string, editor: string): void {
+export function openInEditor(filePath: string, editor: string, lineNum?: string): void {
   const [command, ...editorArgs] = editor.split(" ").filter(Boolean);
   if (!command) throw new Error("No editor configured. Set $EDITOR or $VISUAL.");
-  const proc = Bun.spawnSync([command, ...editorArgs, filePath], {
-    stdio: ["inherit", "inherit", "inherit"],
-  });
+  const proc = Bun.spawnSync(
+    [command, ...editorArgs, filePath, ...(lineNum ? [`+${lineNum}`] : [])],
+    {
+      stdio: ["inherit", "inherit", "inherit"],
+    },
+  );
   if (!proc.success) {
     throw new Error(`Editor "${editor}" exited with code ${proc.exitCode}.`);
   }
+}
+
+export function openWithGlow(path: string): void {
+  const proc = Bun.spawnSync(["glow", path], {
+    stdio: ["inherit", "inherit", "inherit"],
+  });
+  if (!proc.success) {
+    throw new Error(`glow exited with code ${proc.exitCode}.`);
+  }
+}
+
+export function openExistingNote(filePath: string, config: Config, lineNum?: string): void {
+  if (config.viewer === "glow") {
+    openWithGlow(filePath);
+    return;
+  }
+
+  openInEditor(filePath, config.editor, lineNum);
 }

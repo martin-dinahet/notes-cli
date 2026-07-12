@@ -1,6 +1,7 @@
 export interface Config {
   notesDir: string;
   editor: string;
+  viewer: "editor" | "glow";
 }
 
 export interface Note {
