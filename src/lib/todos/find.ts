@@ -33,8 +33,8 @@ export async function findAllTodos(notesDir: string): Promise<ParsedTodo[]> {
         todos.push({
           filePath,
           lineNum: i + 1,
-          text: m[2] ?? "",
-          checked: m[1] === "x",
+          text: m[4] ?? "",
+          checked: (m[3] ?? "").toLowerCase() === "x",
         });
       }
     }

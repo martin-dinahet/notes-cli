@@ -8,7 +8,7 @@ import { runGrep } from "./commands/grep.ts";
 import { runScratch } from "./commands/scratch.ts";
 import { runTodo } from "./commands/todo.ts";
 
-const HELP = `notes - plain-text note taking in your terminal
+const HELP = `notes - markdown note taking in your terminal
 
 Usage:
   notes new <title>      Create (or reopen) a note and edit it in $EDITOR
@@ -17,7 +17,7 @@ Usage:
   notes find [query]     Fuzzy-find notes by title (uses fzf)
   notes grep [pattern]   Search note content with ripgrep + fzf
   notes browse           Open yazi file browser in the notes directory
-  notes todo             Interactive todo list from all notes
+  notes todo             Interactive todo list from markdown task lists
 
 Config:
   NOTES_DIR   Where notes are stored (default: ~/.notes)

@@ -1,2 +1,2 @@
-export const NOTE_EXTENSION = ".txt";
-export const TODO_RE = /^\[( |x)\] (.+)/;
+export const NOTE_EXTENSION = ".md";
+export const TODO_RE = /^(\s*)([-*]) \[( |x|X)\] (.+)/;

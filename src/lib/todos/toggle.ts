@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { TODO_RE } from "../constants";
 import type { ParsedTodo } from "./types";
 
 export async function toggleTodoItem(todo: ParsedTodo): Promise<void> {
@@ -11,11 +12,13 @@ export async function toggleTodoItem(todo: ParsedTodo): Promise<void> {
   const line = lines[idx];
   if (!line) return;
 
-  if (todo.checked) {
-    lines[idx] = line.replace("[x]", "[ ]");
-  } else {
-    lines[idx] = line.replace("[ ]", "[x]");
-  }
+  lines[idx] = line.replace(
+    TODO_RE,
+    (_match, indent: string, marker: string, checked: string, text: string) => {
+      const next = checked.toLowerCase() === "x" ? " " : "x";
+      return `${indent}${marker} [${next}] ${text}`;
+    },
+  );
 
   await writeFile(todo.filePath, lines.join("\n"), "utf-8");
   todo.checked = !todo.checked;

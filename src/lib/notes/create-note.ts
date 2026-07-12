@@ -1,4 +1,5 @@
 import { ensureNotesDir, notePath } from "../helpers";
+import { createMarkdownNote } from "./metadata";
 import type { Config, CreateNoteResult } from "./types";
 
 export async function createNote(title: string, config: Config): Promise<CreateNoteResult> {
@@ -7,6 +8,6 @@ export async function createNote(title: string, config: Config): Promise<CreateN
   const path = notePath(title, config);
   const file = Bun.file(path);
   const alreadyExists = await file.exists();
-  if (!alreadyExists) await Bun.write(path, "");
+  if (!alreadyExists) await Bun.write(path, createMarkdownNote(title));
   return { status: alreadyExists ? "exists" : "created", path };
 }

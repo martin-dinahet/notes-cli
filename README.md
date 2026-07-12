@@ -1,6 +1,6 @@
 # notes-cli
 
-A minimal, terminal-based plain-text note-taking CLI. Notes are stored as `.txt` files in `~/.notes` (configurable) and opened in your `$EDITOR`.
+A minimal, terminal-based Markdown note-taking CLI. Notes are stored as `.md` files in `~/.notes` (configurable) and opened in your `$EDITOR`.
 
 Built with [Bun](https://bun.sh/) and zero runtime dependencies.
 
@@ -9,12 +9,25 @@ Built with [Bun](https://bun.sh/) and zero runtime dependencies.
 | Command | Description |
 |---|---|
 | `notes new <title>` | Create or reopen a note |
-| `notes daily` | Open today's daily note (`daily/dd-mm-yyyy.txt`) |
+| `notes daily` | Open today's daily note (`daily/dd-mm-yyyy.md`) |
 | `notes scratch` | Open the scratchpad |
 | `notes find [query]` | Fuzzy-find note titles (requires [fzf](https://github.com/junegunn/fzf)) |
 | `notes grep [pattern]` | Search note contents (requires `rg` + `fzf`) |
 | `notes browse` | Browse notes directory (requires [yazi](https://github.com/sxyazi/yazi)) |
-| `notes todo` | Interactive TUI todo list — parses `[ ]` / `[x]` from all notes |
+| `notes todo` | Interactive TUI todo list — parses Markdown tasks (`- [ ]` / `- [x]`) from all notes |
+
+New notes include YAML frontmatter metadata:
+
+```markdown
+---
+title: "Example"
+createdAt: 2026-07-12T10:00:00.000Z
+updatedAt: 2026-07-12T10:00:00.000Z
+tags: []
+---
+```
+
+The scratchpad stays metadata-free.
 
 ## Install
 

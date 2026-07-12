@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { dailyNotePath, ensureDir, openInEditor } from "../lib/helpers.ts";
 import { loadConfig } from "../lib/notes/load-config.ts";
+import { createMarkdownNote, updateMarkdownNoteMetadata } from "../lib/notes/metadata.ts";
 
 export async function runDaily(): Promise<void> {
   const config = loadConfig();
@@ -10,17 +11,19 @@ export async function runDaily(): Promise<void> {
   const path = dailyNotePath(config);
   const file = Bun.file(path);
   const exists = await file.exists();
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  const date = `${dd}-${mm}-${yyyy}`;
+  const title = `${date}: Daily note`;
 
   if (!exists) {
-    const d = new Date();
-    const dd = String(d.getDate()).padStart(2, "0");
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const yyyy = d.getFullYear();
-    const date = `${dd}-${mm}-${yyyy}`;
-    const title = `${date}: Daily note`;
-    await Bun.write(path, `${title}\n${"=".repeat(title.length)}\n\n`);
+    await Bun.write(path, createMarkdownNote(title));
     console.log(`Created daily note for ${date}`);
   }
 
+  await updateMarkdownNoteMetadata(path, title);
   openInEditor(path, config.editor);
+  await updateMarkdownNoteMetadata(path, title);
 }
